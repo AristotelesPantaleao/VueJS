@@ -3,6 +3,9 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+
+import './backend/index'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -12,7 +15,7 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  let win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -36,7 +39,6 @@ async function createWindow() {
   win.webContents.on('did-finish-load', () => {
     const { title, version } = require('../package.json')
     win.setTitle(`${title} :: ${version}`)
-    console.log('terminou!')
   })
 
   win.on('closed', () => {
